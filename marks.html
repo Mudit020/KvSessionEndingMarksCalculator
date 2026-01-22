@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session Ending Marks Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -118,11 +119,10 @@
 
         .required-field { color: #dc3545; }
 
-        /* --- NEW DISTINCT FOOTER SECTION --- */
         .site-footer {
             width: 100%;
-            background: rgba(0, 0, 0, 0.2); /* Semi-transparent dark bg */
-            backdrop-filter: blur(10px);    /* Blur effect behind footer */
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
             padding: 25px 0;
@@ -501,6 +501,33 @@
     </footer>
 
     <script>
+        // --- 2. CONFETTI FUNCTION ---
+        function triggerConfetti() {
+            var duration = 3000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#667eea', '#764ba2', '#ffffff']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#667eea', '#764ba2', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
         // --- NEW FEATURE: AUTO-ENFORCE LIMITS ---
         document.addEventListener('DOMContentLoaded', () => {
             const inputs = document.querySelectorAll('input[type="number"]');
@@ -659,6 +686,11 @@
             const finalMessage = determineFinalMessage(failCount, results);
 
             displayResults(results, totalMarks, percentage, finalMessage);
+
+            // --- 3. TRIGGER CONFETTI HERE ---
+            if (finalMessage.className === 'promote') {
+                triggerConfetti();
+            }
         }
 
         function determineFinalMessage(failCount, results) {
