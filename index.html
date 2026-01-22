@@ -11,10 +11,17 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main Wrapper to push footer down */
+        .main-content {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            padding: 20px;
         }
 
         .container {
@@ -69,7 +76,6 @@
         }
         input[type="number"]:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         
-        /* Error flash animation class */
         .input-error { border-color: #dc3545 !important; background-color: #fff8f8; }
 
         .input-hint { font-size: 0.85em; color: #999; margin-top: 2px; font-weight: normal; }
@@ -112,6 +118,42 @@
 
         .required-field { color: #dc3545; }
 
+        /* --- NEW DISTINCT FOOTER SECTION --- */
+        .site-footer {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2); /* Semi-transparent dark bg */
+            backdrop-filter: blur(10px);    /* Blur effect behind footer */
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 25px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .creators {
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+        }
+
+        .creators span {
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .copyright {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
         @media (max-width: 768px) {
             .container { padding: 20px; }
             h1 { font-size: 1.8em; }
@@ -124,333 +166,342 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Marks Calculator</h1>
-        <p class="subtitle">Session Ending Class 11 Result Prediction</p>
+    
+    <div class="main-content">
+        <div class="container">
+            <h1>Marks Calculator</h1>
+            <p class="subtitle">Session Ending Class 11 Result Prediction</p>
 
-        <div class="stream-selection">
-            <button class="stream-btn" onclick="selectStream('cs')">CS Stream</button>
-            <button class="stream-btn" onclick="selectStream('hindi')">Hindi Stream</button>
-        </div>
+            <div class="stream-selection">
+                <button class="stream-btn" onclick="selectStream('cs')">CS Stream</button>
+                <button class="stream-btn" onclick="selectStream('hindi')">Hindi Stream</button>
+            </div>
 
-        <div id="cs-stream" class="subjects-container">
-            <div class="subject-section">
-                <h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label>
-                        <input type="number" id="cs-phy-pt1" min="0" max="40" placeholder="0-40">
+            <div id="cs-stream" class="subjects-container">
+                <div class="subject-section">
+                    <h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label>
+                            <input type="number" id="cs-phy-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label>
+                            <input type="number" id="cs-phy-hy" min="0" max="70" placeholder="0-70">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label>
-                        <input type="number" id="cs-phy-hy" min="0" max="70" placeholder="0-70">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label>
+                            <input type="number" id="cs-phy-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label>
+                            <input type="number" id="cs-phy-sse" min="0" max="70" placeholder="0-70">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label>
+                            <input type="number" id="cs-phy-prac" min="0" max="30" placeholder="0-30">
+                        </div>
                     </div>
                 </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label>
-                        <input type="number" id="cs-phy-pt2" min="0" max="40" placeholder="0-40">
+
+                <div class="subject-section">
+                    <h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-chem-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-chem-hy" min="0" max="70" placeholder="0-70">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label>
-                        <input type="number" id="cs-phy-sse" min="0" max="70" placeholder="0-70">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-chem-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="cs-chem-sse" min="0" max="70" placeholder="0-70">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-chem-prac" min="0" max="30" placeholder="0-30">
+                        </div>
                     </div>
                 </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label>
-                        <input type="number" id="cs-phy-prac" min="0" max="30" placeholder="0-30">
+
+                <div class="subject-section">
+                    <h3 class="subject-title">🔢 Maths <span class="subject-badge">Theory Max: 80</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-math-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label>
+                            <input type="number" id="cs-math-hy" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-math-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label>
+                            <input type="number" id="cs-math-sse" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label>
+                            <input type="number" id="cs-math-prac" min="0" max="20" placeholder="0-20">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subject-section">
+                    <h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-eng-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-eng-hy" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-eng-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="cs-eng-sse" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-eng-prac" min="0" max="20" placeholder="0-20">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subject-section">
+                    <h3 class="subject-title">💻 Computer Science <span class="subject-badge">Theory Max: 70</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-cs-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-cs-hy" min="0" max="70" placeholder="0-70">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-cs-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="cs-cs-sse" min="0" max="70" placeholder="0-70">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="cs-cs-prac" min="0" max="30" placeholder="0-30">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="subject-section">
-                <h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-chem-pt1" min="0" max="40" placeholder="0-40">
+            <div id="hindi-stream" class="subjects-container">
+                <div class="subject-section">
+                    <h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-phy-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-phy-hy" min="0" max="70" placeholder="0-70">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-chem-hy" min="0" max="70" placeholder="0-70">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-phy-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-phy-sse" min="0" max="70" placeholder="0-70">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-phy-prac" min="0" max="30" placeholder="0-30">
+                        </div>
                     </div>
                 </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-chem-pt2" min="0" max="40" placeholder="0-40">
+
+                <div class="subject-section">
+                    <h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-chem-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-chem-hy" min="0" max="70" placeholder="0-70">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="cs-chem-sse" min="0" max="70" placeholder="0-70">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-chem-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-chem-sse" min="0" max="70" placeholder="0-70">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-chem-prac" min="0" max="30" placeholder="0-30">
+                        </div>
                     </div>
                 </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-chem-prac" min="0" max="30" placeholder="0-30">
+
+                <div class="subject-section">
+                    <h3 class="subject-title">🔢 Maths <span class="subject-badge">Theory Max: 80</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-math-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-math-hy" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-math-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-math-sse" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-math-prac" min="0" max="20" placeholder="0-20">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subject-section">
+                    <h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-eng-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-eng-hy" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-eng-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-eng-sse" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-eng-prac" min="0" max="20" placeholder="0-20">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subject-section">
+                    <h3 class="subject-title">🇮🇳 Hindi <span class="subject-badge">Theory Max: 80</span></h3>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT1 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-hindi-pt1" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>Half Yearly Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-hindi-hy" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>PT2 Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-hindi-pt2" min="0" max="40" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>SSE (Expected) <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-hindi-sse" min="0" max="80" placeholder="0-80">
+                        </div>
+                    </div>
+                    <div class="input-row full">
+                        <div class="form-group">
+                            <label>Practical Marks <span class="required-field">*</span></label>
+                            <input type="number" id="hindi-hindi-prac" min="0" max="20" placeholder="0-20">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="subject-section">
-                <h3 class="subject-title">🔢 Maths <span class="subject-badge">Theory Max: 80</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-math-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label>
-                        <input type="number" id="cs-math-hy" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-math-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label>
-                        <input type="number" id="cs-math-sse" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label>
-                        <input type="number" id="cs-math-prac" min="0" max="20" placeholder="0-20">
-                    </div>
-                </div>
+            <div class="button-group">
+                <button class="calculate-btn" onclick="calculateMarks()">📊 Calculate Results</button>
+                <button class="reset-btn" onclick="resetForm()">🔄 Reset Form</button>
             </div>
 
-            <div class="subject-section">
-                <h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-eng-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-eng-hy" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-eng-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="cs-eng-sse" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-eng-prac" min="0" max="20" placeholder="0-20">
-                    </div>
-                </div>
+            <div id="results" class="results-section">
+                <div class="result-title">📋 Your Results</div>
+                <div id="results-content"></div>
             </div>
-
-            <div class="subject-section">
-                <h3 class="subject-title">💻 Computer Science <span class="subject-badge">Theory Max: 70</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-cs-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-cs-hy" min="0" max="70" placeholder="0-70">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-cs-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="cs-cs-sse" min="0" max="70" placeholder="0-70">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="cs-cs-prac" min="0" max="30" placeholder="0-30">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="hindi-stream" class="subjects-container">
-            <div class="subject-section">
-                <h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-phy-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-phy-hy" min="0" max="70" placeholder="0-70">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-phy-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-phy-sse" min="0" max="70" placeholder="0-70">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-phy-prac" min="0" max="30" placeholder="0-30">
-                    </div>
-                </div>
-            </div>
-
-            <div class="subject-section">
-                <h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-chem-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-chem-hy" min="0" max="70" placeholder="0-70">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-chem-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-chem-sse" min="0" max="70" placeholder="0-70">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-chem-prac" min="0" max="30" placeholder="0-30">
-                    </div>
-                </div>
-            </div>
-
-            <div class="subject-section">
-                <h3 class="subject-title">🔢 Maths <span class="subject-badge">Theory Max: 80</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-math-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-math-hy" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-math-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-math-sse" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-math-prac" min="0" max="20" placeholder="0-20">
-                    </div>
-                </div>
-            </div>
-
-            <div class="subject-section">
-                <h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-eng-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-eng-hy" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-eng-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-eng-sse" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-eng-prac" min="0" max="20" placeholder="0-20">
-                    </div>
-                </div>
-            </div>
-
-            <div class="subject-section">
-                <h3 class="subject-title">🇮🇳 Hindi <span class="subject-badge">Theory Max: 80</span></h3>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT1 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-hindi-pt1" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>Half Yearly Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-hindi-hy" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="form-group">
-                        <label>PT2 Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-hindi-pt2" min="0" max="40" placeholder="0-40">
-                    </div>
-                    <div class="form-group">
-                        <label>SSE (Expected) <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-hindi-sse" min="0" max="80" placeholder="0-80">
-                    </div>
-                </div>
-                <div class="input-row full">
-                    <div class="form-group">
-                        <label>Practical Marks <span class="required-field">*</span></label>
-                        <input type="number" id="hindi-hindi-prac" min="0" max="20" placeholder="0-20">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-group">
-            <button class="calculate-btn" onclick="calculateMarks()">📊 Calculate Results</button>
-            <button class="reset-btn" onclick="resetForm()">🔄 Reset Form</button>
-        </div>
-
-        <div id="results" class="results-section">
-            <div class="result-title">📋 Your Results</div>
-            <div id="results-content"></div>
         </div>
     </div>
 
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="creators">Created by <span>Mudit Raj Gajpal</span> & <span>Tushti Gajpal</span></p>
+            <p class="copyright">&copy; 2026 All Rights Reserved</p>
+        </div>
+    </footer>
+
     <script>
         // --- NEW FEATURE: AUTO-ENFORCE LIMITS ---
-        // This code runs immediately and checks every time you type
         document.addEventListener('DOMContentLoaded', () => {
             const inputs = document.querySelectorAll('input[type="number"]');
             
@@ -460,15 +511,12 @@
                     const min = parseInt(this.getAttribute('min')) || 0;
                     let value = parseInt(this.value);
 
-                    // If user clears the input, don't do anything
                     if (isNaN(value)) return;
 
-                    // If value > max, force it to max and flash red
                     if (value > max) {
                         this.value = max;
                         flashError(this);
                     }
-                    // If value < min, force to min
                     if (value < min) {
                         this.value = min;
                         flashError(this);
@@ -505,10 +553,9 @@
             const value = el.value;
             if (value === '') return null;
             
-            // Extra safety check during calculation
             let num = parseFloat(value);
             const max = parseFloat(el.getAttribute('max'));
-            if (num > max) return max; // Clamp to max if somehow bypassed
+            if (num > max) return max; 
             return num;
         }
 
