@@ -50,13 +50,14 @@
             display: none;
             transition: color 0.3s ease;
             z-index: 100;
+            padding: 5px; /* Added padding for better touch target */
         }
         .back-btn:hover { color: #667eea; transform: translateX(-3px); }
 
-        h1 { text-align: center; color: #333; margin-bottom: 10px; font-size: 2.5em; }
+        h1 { text-align: center; color: #333; margin-bottom: 10px; font-size: 2.5em; line-height: 1.2; }
         .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1.1em; }
 
-        /* --- NEW STREAM INDICATOR --- */
+        /* --- STREAM INDICATOR --- */
         .active-stream-title {
             text-align: center;
             color: #667eea;
@@ -66,7 +67,7 @@
             padding: 10px;
             background: #f0f4ff;
             border-radius: 8px;
-            display: none; /* Hidden by default */
+            display: none;
             border: 1px solid #dbeafe;
         }
 
@@ -94,10 +95,10 @@
 
         .subject-title {
             font-size: 1.4em; color: #333; margin-bottom: 20px; font-weight: 700;
-            text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;
+            text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
 
-        .subject-badge { font-size: 0.6em; background: #e9ecef; padding: 4px 8px; border-radius: 4px; color: #666; font-weight: normal; }
+        .subject-badge { font-size: 0.6em; background: #e9ecef; padding: 4px 8px; border-radius: 4px; color: #666; font-weight: normal; white-space: nowrap; }
 
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
         .input-row.full { grid-template-columns: 1fr; }
@@ -106,7 +107,7 @@
         label { margin-bottom: 8px; color: #555; font-weight: 600; font-size: 0.95em; }
         
         input[type="number"] {
-            padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 1em; transition: all 0.3s ease;
+            padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 1em; transition: all 0.3s ease; width: 100%;
         }
         input[type="number"]:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         
@@ -154,14 +155,28 @@
         .creators span { font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .copyright { font-size: 0.85em; color: rgba(255, 255, 255, 0.7); }
 
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
-            .container { padding: 20px; }
-            h1 { font-size: 1.8em; }
-            .selection-container { flex-direction: column; }
-            .input-row { grid-template-columns: 1fr; }
+            .container { padding: 20px; margin-top: 10px; margin-bottom: 10px; }
+            h1 { font-size: 1.8em; margin-top: 30px; /* Space for back button */ }
+            .subtitle { font-size: 1em; }
+            
+            /* Stack buttons on mobile */
+            .selection-container { flex-direction: column; width: 100%; }
+            .stream-btn { width: 100%; padding: 15px; }
+            
+            /* Stack inputs on mobile */
+            .input-row { grid-template-columns: 1fr; gap: 10px; }
+            
+            /* Stack summary box */
             .summary-box { grid-template-columns: 1fr; }
-            .button-group { flex-direction: column; }
-            .calculate-btn, .reset-btn { max-width: 100%; }
+            
+            /* Stack action buttons */
+            .button-group { flex-direction: column; width: 100%; }
+            .calculate-btn, .reset-btn { max-width: 100%; width: 100%; }
+            
+            /* Adjust Back Button */
+            .back-btn { font-size: 1em; top: 15px; left: 15px; }
         }
     </style>
 </head>
@@ -253,13 +268,11 @@
             const btn1 = document.getElementById('btn-sub-1');
             const btn2 = document.getElementById('btn-sub-2');
 
-            // Format title
             let mainLabel = '';
             if(stream === 'maths') mainLabel = "Science (Maths)";
             else if(stream === 'bio') mainLabel = "Science (Biology)";
             else mainLabel = "Commerce";
 
-            // Temporary hold title, we update full title in step 2
             document.getElementById('active-stream-title').setAttribute('data-main', mainLabel);
 
             if (stream === 'commerce') {
@@ -295,7 +308,6 @@
                 if (subStream === 'hindi') { formId = 'hindi-stream'; subLabel = "Hindi Stream"; }
             }
 
-            // Update Header Indicator
             const mainLabel = document.getElementById('active-stream-title').getAttribute('data-main');
             document.getElementById('active-stream-title').innerText = `${mainLabel} • ${subLabel}`;
             document.getElementById('active-stream-title').style.display = 'block';
@@ -306,24 +318,17 @@
 
         // --- BACK BUTTON LOGIC ---
         function goBack() {
-            // Case 1: On Form Page -> Go to Sub Stream Selection
             if (document.querySelector('.subjects-container.active')) {
-                // Hide current form
                 document.querySelectorAll('.subjects-container').forEach(el => el.classList.remove('active'));
                 document.getElementById('calc-controls').style.display = 'none';
                 document.getElementById('results').classList.remove('show');
-                
-                // Hide Indicator
                 document.getElementById('active-stream-title').style.display = 'none';
-
-                // Show Sub Stream Selection
                 document.getElementById('sub-stream-selection').classList.add('visible');
             } 
-            // Case 2: On Sub Stream Selection -> Go to Main Stream Selection
             else if (document.getElementById('sub-stream-selection').classList.contains('visible')) {
                 document.getElementById('sub-stream-selection').classList.remove('visible');
                 document.getElementById('main-stream-selection').classList.add('visible');
-                document.getElementById('back-btn').style.display = 'none'; // Hide back button on main page
+                document.getElementById('back-btn').style.display = 'none';
             }
         }
 
@@ -534,7 +539,6 @@
             document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
             document.getElementById('results').classList.remove('show');
             document.getElementById('results-content').innerHTML = '';
-            
             currentMainStream = ''; currentSubStream = '';
             document.querySelectorAll('.subjects-container').forEach(el => el.classList.remove('active'));
             document.getElementById('sub-stream-selection').classList.remove('visible');
