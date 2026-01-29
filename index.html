@@ -16,7 +16,6 @@
             flex-direction: column;
         }
 
-        /* Main Wrapper to push footer down */
         .main-content {
             flex: 1;
             display: flex;
@@ -34,24 +33,58 @@
             padding: 40px;
             margin-top: 20px;
             margin-bottom: 20px;
+            position: relative;
         }
+
+        /* --- BACK BUTTON STYLE --- */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: none;
+            font-size: 1.1em;
+            color: #666;
+            cursor: pointer;
+            font-weight: bold;
+            display: none;
+            transition: color 0.3s ease;
+            z-index: 100;
+        }
+        .back-btn:hover { color: #667eea; transform: translateX(-3px); }
 
         h1 { text-align: center; color: #333; margin-bottom: 10px; font-size: 2.5em; }
         .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1.1em; }
 
-        .stream-selection { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; }
-        
-        .stream-btn {
-            padding: 12px 30px; font-size: 1.1em; border: 2px solid #667eea;
-            background: white; color: #667eea; border-radius: 8px; cursor: pointer;
-            transition: all 0.3s ease; font-weight: 600;
+        /* --- NEW STREAM INDICATOR --- */
+        .active-stream-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding: 10px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+            border: 1px solid #dbeafe;
         }
-        .stream-btn:hover { background: #667eea; color: white; transform: translateY(-2px); }
-        .stream-btn.active { background: #667eea; color: white; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
 
-        .subjects-container { display: none; animation: fadeIn 0.5s ease; }
-        .subjects-container.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .selection-container { display: none; gap: 20px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
+        .visible { display: flex !important; animation: fadeIn 0.5s ease; }
+
+        .stream-btn {
+            padding: 15px 30px; font-size: 1.1em; border: 2px solid #667eea;
+            background: white; color: #667eea; border-radius: 8px; cursor: pointer;
+            transition: all 0.3s ease; font-weight: 600; min-width: 160px;
+        }
+        .stream-btn:hover { background: #667eea; color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
+
+        .subjects-container { display: none; }
+        .subjects-container.active { display: block; animation: slideUp 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .subject-section {
             margin-bottom: 40px; padding: 25px; background: #f8f9fa;
@@ -78,10 +111,9 @@
         input[type="number"]:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         
         .input-error { border-color: #dc3545 !important; background-color: #fff8f8; }
-
         .input-hint { font-size: 0.85em; color: #999; margin-top: 2px; font-weight: normal; }
 
-        .button-group { display: flex; gap: 15px; justify-content: center; margin-top: 40px; }
+        .button-group { display: none; gap: 15px; justify-content: center; margin-top: 40px; }
         button { padding: 14px 40px; font-size: 1.1em; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
         
         .calculate-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; flex: 1; max-width: 250px; box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3); }
@@ -91,15 +123,12 @@
         .reset-btn:hover { background: #e74c3c; color: white; transform: translateY(-2px); }
 
         .results-section { display: none; background: white; padding: 30px; border-radius: 10px; margin-top: 30px; border: 2px solid #f0f0f0; }
-        .results-section.show { display: block; animation: slideIn 0.5s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
+        .results-section.show { display: block; animation: slideUp 0.5s ease; }
+        
         .result-title { font-size: 1.6em; color: #333; margin-bottom: 25px; text-align: center; font-weight: 700; }
-
         .subject-result { padding: 15px; margin-bottom: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #ddd; }
         .subject-result.pass { background: #d4edda; border-left-color: #28a745; }
         .subject-result.fail { background: #f8d7da; border-left-color: #dc3545; }
-
         .subject-name { font-weight: 600; color: #333; font-size: 1.05em; }
         .subject-details { text-align: right; }
         .subject-details .marks { color: #555; font-weight: 600; }
@@ -119,45 +148,16 @@
 
         .required-field { color: #dc3545; }
 
-        .site-footer {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 25px 0;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .creators {
-            font-size: 1.1em;
-            letter-spacing: 0.5px;
-        }
-
-        .creators span {
-            font-weight: 700;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .copyright {
-            font-size: 0.85em;
-            color: rgba(255, 255, 255, 0.7);
-        }
+        .site-footer { width: 100%; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px); border-top: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 25px 0; text-align: center; margin-top: auto; }
+        .footer-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+        .creators { font-size: 1.1em; letter-spacing: 0.5px; }
+        .creators span { font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .copyright { font-size: 0.85em; color: rgba(255, 255, 255, 0.7); }
 
         @media (max-width: 768px) {
             .container { padding: 20px; }
             h1 { font-size: 1.8em; }
-            .stream-selection { flex-direction: column; }
+            .selection-container { flex-direction: column; }
             .input-row { grid-template-columns: 1fr; }
             .summary-box { grid-template-columns: 1fr; }
             .button-group { flex-direction: column; }
@@ -169,319 +169,57 @@
     
     <div class="main-content">
         <div class="container">
+            <button id="back-btn" class="back-btn" onclick="goBack()">⬅ Back</button>
+
             <h1>Marks Calculator</h1>
             <p class="subtitle">Session Ending Class 11 Result Prediction</p>
 
-            <div class="stream-selection">
-                <button class="stream-btn" onclick="selectStream('cs')">CS Stream</button>
-                <button class="stream-btn" onclick="selectStream('hindi')">Hindi Stream</button>
+            <div id="active-stream-title" class="active-stream-title"></div>
+
+            <div id="main-stream-selection" class="selection-container visible">
+                <button class="stream-btn" onclick="selectMainStream('maths')">Maths Stream</button>
+                <button class="stream-btn" onclick="selectMainStream('bio')">Biology Stream</button>
+                <button class="stream-btn" onclick="selectMainStream('commerce')">Commerce Stream</button>
+            </div>
+
+            <div id="sub-stream-selection" class="selection-container">
+                <button id="btn-sub-1" class="stream-btn" onclick="handleSubStreamClick('option1')">CS Stream</button>
+                <button id="btn-sub-2" class="stream-btn" onclick="handleSubStreamClick('option2')">Hindi Stream</button>
             </div>
 
             <div id="cs-stream" class="subjects-container">
-                <div class="subject-section">
-                    <h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label>
-                            <input type="number" id="cs-phy-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label>
-                            <input type="number" id="cs-phy-hy" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label>
-                            <input type="number" id="cs-phy-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label>
-                            <input type="number" id="cs-phy-sse" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label>
-                            <input type="number" id="cs-phy-prac" min="0" max="30" placeholder="0-30">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-chem-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-chem-hy" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-chem-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="cs-chem-sse" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-chem-prac" min="0" max="30" placeholder="0-30">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">🔢 Maths <span class="subject-badge">Theory Max: 80</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-math-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label>
-                            <input type="number" id="cs-math-hy" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-math-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label>
-                            <input type="number" id="cs-math-sse" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label>
-                            <input type="number" id="cs-math-prac" min="0" max="20" placeholder="0-20">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-eng-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-eng-hy" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-eng-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="cs-eng-sse" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-eng-prac" min="0" max="20" placeholder="0-20">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">💻 Computer Science <span class="subject-badge">Theory Max: 70</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-cs-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-cs-hy" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-cs-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="cs-cs-sse" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="cs-cs-prac" min="0" max="30" placeholder="0-30">
-                        </div>
-                    </div>
-                </div>
+                <div class="subject-section"><h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-phy-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="cs-phy-hy" max="70" placeholder="0-70"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-phy-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="cs-phy-sse" max="70" placeholder="0-70"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label><input type="number" id="cs-phy-prac" max="30" placeholder="0-30"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-chem-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="cs-chem-hy" max="70" placeholder="0-70"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-chem-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="cs-chem-sse" max="70" placeholder="0-70"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label><input type="number" id="cs-chem-prac" max="30" placeholder="0-30"></div></div></div>
+                <div class="subject-section" id="cs-third-subject"><h3 class="subject-title" id="cs-third-title">🔢 Maths</h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-math-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint" id="cs-third-hy-hint">(Max 80)</span></label><input type="number" id="cs-math-hy" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-math-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint" id="cs-third-sse-hint">(Max 80)</span></label><input type="number" id="cs-math-sse" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint" id="cs-third-prac-hint">(Max 20)</span></label><input type="number" id="cs-math-prac" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-eng-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="cs-eng-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-eng-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="cs-eng-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="cs-eng-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">💻 Computer Science <span class="subject-badge">Theory Max: 70</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-cs-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="cs-cs-hy" max="70" placeholder="0-70"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="cs-cs-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="cs-cs-sse" max="70" placeholder="0-70"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label><input type="number" id="cs-cs-prac" max="30" placeholder="0-30"></div></div></div>
             </div>
 
             <div id="hindi-stream" class="subjects-container">
-                <div class="subject-section">
-                    <h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-phy-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-phy-hy" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-phy-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-phy-sse" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-phy-prac" min="0" max="30" placeholder="0-30">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-chem-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-chem-hy" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-chem-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-chem-sse" min="0" max="70" placeholder="0-70">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-chem-prac" min="0" max="30" placeholder="0-30">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">🔢 Maths <span class="subject-badge">Theory Max: 80</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-math-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-math-hy" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-math-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-math-sse" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-math-prac" min="0" max="20" placeholder="0-20">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-eng-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-eng-hy" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-eng-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-eng-sse" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-eng-prac" min="0" max="20" placeholder="0-20">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subject-section">
-                    <h3 class="subject-title">🇮🇳 Hindi <span class="subject-badge">Theory Max: 80</span></h3>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT1 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-hindi-pt1" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>Half Yearly Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-hindi-hy" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row">
-                        <div class="form-group">
-                            <label>PT2 Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-hindi-pt2" min="0" max="40" placeholder="0-40">
-                        </div>
-                        <div class="form-group">
-                            <label>SSE (Expected) <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-hindi-sse" min="0" max="80" placeholder="0-80">
-                        </div>
-                    </div>
-                    <div class="input-row full">
-                        <div class="form-group">
-                            <label>Practical Marks <span class="required-field">*</span></label>
-                            <input type="number" id="hindi-hindi-prac" min="0" max="20" placeholder="0-20">
-                        </div>
-                    </div>
-                </div>
+                <div class="subject-section"><h3 class="subject-title">📚 Physics <span class="subject-badge">Theory Max: 70</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-phy-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="hindi-phy-hy" max="70" placeholder="0-70"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-phy-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="hindi-phy-sse" max="70" placeholder="0-70"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label><input type="number" id="hindi-phy-prac" max="30" placeholder="0-30"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">⚗️ Chemistry <span class="subject-badge">Theory Max: 70</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-chem-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="hindi-chem-hy" max="70" placeholder="0-70"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-chem-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="hindi-chem-sse" max="70" placeholder="0-70"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label><input type="number" id="hindi-chem-prac" max="30" placeholder="0-30"></div></div></div>
+                <div class="subject-section" id="hindi-third-subject"><h3 class="subject-title" id="hindi-third-title">🔢 Maths</h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-math-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint" id="hindi-third-hy-hint">(Max 80)</span></label><input type="number" id="hindi-math-hy" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-math-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint" id="hindi-third-sse-hint">(Max 80)</span></label><input type="number" id="hindi-math-sse" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint" id="hindi-third-prac-hint">(Max 20)</span></label><input type="number" id="hindi-math-prac" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-eng-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="hindi-eng-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-eng-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="hindi-eng-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="hindi-eng-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">🇮🇳 Hindi <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-hindi-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="hindi-hindi-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="hindi-hindi-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="hindi-hindi-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="hindi-hindi-prac" max="20" placeholder="0-20"></div></div></div>
             </div>
 
-            <div class="button-group">
+            <div id="commerce-ip-stream" class="subjects-container">
+                <div class="subject-section"><h3 class="subject-title">📊 Accountancy <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-acc-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-acc-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-acc-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-acc-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-ip-acc-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">🏢 Business Studies <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-bst-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-bst-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-bst-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-bst-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-ip-bst-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">📈 Economics <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-eco-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-eco-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-eco-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-eco-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-ip-eco-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-eng-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-eng-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-eng-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-ip-eng-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-ip-eng-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">💻 IP <span class="subject-badge">Theory Max: 70</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-ip-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="comm-ip-ip-hy" max="70" placeholder="0-70"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-ip-ip-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 70)</span></label><input type="number" id="comm-ip-ip-sse" max="70" placeholder="0-70"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 30)</span></label><input type="number" id="comm-ip-ip-prac" max="30" placeholder="0-30"></div></div></div>
+            </div>
+
+            <div id="commerce-hindi-stream" class="subjects-container">
+                <div class="subject-section"><h3 class="subject-title">📊 Accountancy <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-acc-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-acc-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-acc-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-acc-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-hindi-acc-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">🏢 Business Studies <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-bst-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-bst-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-bst-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-bst-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-hindi-bst-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">📈 Economics <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-eco-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-eco-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-eco-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-eco-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-hindi-eco-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">📖 English <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-eng-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-eng-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-eng-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-eng-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-hindi-eng-prac" max="20" placeholder="0-20"></div></div></div>
+                <div class="subject-section"><h3 class="subject-title">🇮🇳 Hindi <span class="subject-badge">Theory Max: 80</span></h3><div class="input-row"><div class="form-group"><label>PT1 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-hindi-pt1" max="40" placeholder="0-40"></div><div class="form-group"><label>Half Yearly Marks <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-hindi-hy" max="80" placeholder="0-80"></div></div><div class="input-row"><div class="form-group"><label>PT2 Marks <span class="required-field">*</span> <span class="input-hint">(Max 40)</span></label><input type="number" id="comm-hindi-hindi-pt2" max="40" placeholder="0-40"></div><div class="form-group"><label>SSE (Expected) <span class="required-field">*</span> <span class="input-hint">(Max 80)</span></label><input type="number" id="comm-hindi-hindi-sse" max="80" placeholder="0-80"></div></div><div class="input-row full"><div class="form-group"><label>Practical Marks <span class="required-field">*</span> <span class="input-hint">(Max 20)</span></label><input type="number" id="comm-hindi-hindi-prac" max="20" placeholder="0-20"></div></div></div>
+            </div>
+
+            <div id="calc-controls" class="button-group">
                 <button class="calculate-btn" onclick="calculateMarks()">📊 Calculate Results</button>
                 <button class="reset-btn" onclick="resetForm()">🔄 Reset Form</button>
             </div>
@@ -501,104 +239,161 @@
     </footer>
 
     <script>
-        // --- 2. CONFETTI FUNCTION ---
-        function triggerConfetti() {
-            var duration = 3000;
-            var end = Date.now() + duration;
+        // Global variables
+        let currentMainStream = ''; 
+        let currentSubStream = '';
 
-            (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#667eea', '#764ba2', '#ffffff']
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#667eea', '#764ba2', '#ffffff']
-                });
+        // --- STEP 1: Select Main Stream ---
+        function selectMainStream(stream) {
+            currentMainStream = stream;
+            document.getElementById('main-stream-selection').classList.remove('visible');
+            document.getElementById('back-btn').style.display = 'block'; // Show back button
+            
+            // Set Sub-Stream Button Text
+            const btn1 = document.getElementById('btn-sub-1');
+            const btn2 = document.getElementById('btn-sub-2');
 
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
+            // Format title
+            let mainLabel = '';
+            if(stream === 'maths') mainLabel = "Science (Maths)";
+            else if(stream === 'bio') mainLabel = "Science (Biology)";
+            else mainLabel = "Commerce";
+
+            // Temporary hold title, we update full title in step 2
+            document.getElementById('active-stream-title').setAttribute('data-main', mainLabel);
+
+            if (stream === 'commerce') {
+                btn1.innerText = "IP Stream";
+                btn1.onclick = function() { handleSubStreamClick('ip'); };
+                btn2.innerText = "Hindi Stream";
+                btn2.onclick = function() { handleSubStreamClick('hindi'); };
+            } else {
+                // Science (Maths/Bio)
+                btn1.innerText = "CS Stream";
+                btn1.onclick = function() { handleSubStreamClick('cs'); };
+                btn2.innerText = "Hindi Stream";
+                btn2.onclick = function() { handleSubStreamClick('hindi'); };
+            }
+
+            document.getElementById('sub-stream-selection').classList.add('visible');
+            if (stream !== 'commerce') updateThirdSubjectUI(stream);
         }
 
-        // --- NEW FEATURE: AUTO-ENFORCE LIMITS ---
+        // --- STEP 2: Handle Sub Stream Click ---
+        function handleSubStreamClick(subStream) {
+            currentSubStream = subStream;
+            document.getElementById('sub-stream-selection').classList.remove('visible');
+            
+            let formId = '';
+            let subLabel = '';
+
+            if (currentMainStream === 'commerce') {
+                if (subStream === 'ip') { formId = 'commerce-ip-stream'; subLabel = "IP Stream"; }
+                if (subStream === 'hindi') { formId = 'commerce-hindi-stream'; subLabel = "Hindi Stream"; }
+            } else {
+                if (subStream === 'cs') { formId = 'cs-stream'; subLabel = "CS Stream"; }
+                if (subStream === 'hindi') { formId = 'hindi-stream'; subLabel = "Hindi Stream"; }
+            }
+
+            // Update Header Indicator
+            const mainLabel = document.getElementById('active-stream-title').getAttribute('data-main');
+            document.getElementById('active-stream-title').innerText = `${mainLabel} • ${subLabel}`;
+            document.getElementById('active-stream-title').style.display = 'block';
+
+            document.getElementById(formId).classList.add('active');
+            document.getElementById('calc-controls').style.display = 'flex';
+        }
+
+        // --- BACK BUTTON LOGIC ---
+        function goBack() {
+            // Case 1: On Form Page -> Go to Sub Stream Selection
+            if (document.querySelector('.subjects-container.active')) {
+                // Hide current form
+                document.querySelectorAll('.subjects-container').forEach(el => el.classList.remove('active'));
+                document.getElementById('calc-controls').style.display = 'none';
+                document.getElementById('results').classList.remove('show');
+                
+                // Hide Indicator
+                document.getElementById('active-stream-title').style.display = 'none';
+
+                // Show Sub Stream Selection
+                document.getElementById('sub-stream-selection').classList.add('visible');
+            } 
+            // Case 2: On Sub Stream Selection -> Go to Main Stream Selection
+            else if (document.getElementById('sub-stream-selection').classList.contains('visible')) {
+                document.getElementById('sub-stream-selection').classList.remove('visible');
+                document.getElementById('main-stream-selection').classList.add('visible');
+                document.getElementById('back-btn').style.display = 'none'; // Hide back button on main page
+            }
+        }
+
+        function updateThirdSubjectUI(type) {
+            const isBio = (type === 'bio');
+            const theoryMax = isBio ? 70 : 80;
+            const pracMax = isBio ? 30 : 20;
+            const title = isBio ? '🧬 Biology' : '🔢 Maths';
+            const badge = `Theory Max: ${theoryMax}`;
+
+            const forms = ['cs', 'hindi'];
+            forms.forEach(prefix => {
+                document.getElementById(`${prefix}-third-title`).innerHTML = `${title} <span class="subject-badge">${badge}</span>`;
+                const hyInput = document.getElementById(`${prefix}-math-hy`);
+                const sseInput = document.getElementById(`${prefix}-math-sse`);
+                const pracInput = document.getElementById(`${prefix}-math-prac`);
+                
+                hyInput.setAttribute('max', theoryMax);
+                hyInput.placeholder = `0-${theoryMax}`;
+                document.getElementById(`${prefix}-third-hy-hint`).innerText = `(Max ${theoryMax})`;
+
+                sseInput.setAttribute('max', theoryMax);
+                sseInput.placeholder = `0-${theoryMax}`;
+                document.getElementById(`${prefix}-third-sse-hint`).innerText = `(Max ${theoryMax})`;
+
+                pracInput.setAttribute('max', pracMax);
+                pracInput.placeholder = `0-${pracMax}`;
+                document.getElementById(`${prefix}-third-prac-hint`).innerText = `(Max ${pracMax})`;
+            });
+        }
+
+        // --- INPUT VALIDATION ---
         document.addEventListener('DOMContentLoaded', () => {
             const inputs = document.querySelectorAll('input[type="number"]');
-            
             inputs.forEach(input => {
                 input.addEventListener('input', function() {
                     const max = parseInt(this.getAttribute('max'));
                     const min = parseInt(this.getAttribute('min')) || 0;
                     let value = parseInt(this.value);
-
                     if (isNaN(value)) return;
-
-                    if (value > max) {
-                        this.value = max;
-                        flashError(this);
-                    }
-                    if (value < min) {
-                        this.value = min;
-                        flashError(this);
-                    }
+                    if (value > max) { this.value = max; flashError(this); }
+                    if (value < min) { this.value = min; flashError(this); }
                 });
             });
         });
 
         function flashError(element) {
             element.classList.add('input-error');
-            setTimeout(() => {
-                element.classList.remove('input-error');
-            }, 300);
-        }
-
-        let currentStream = '';
-
-        function selectStream(stream) {
-            currentStream = stream;
-            
-            document.querySelectorAll('.stream-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.getElementById('cs-stream').classList.remove('active');
-            document.getElementById('hindi-stream').classList.remove('active');
-            document.getElementById(`${stream}-stream`).classList.add('active');
-            
-            document.getElementById('results').classList.remove('show');
-            document.getElementById('results-content').innerHTML = '';
+            setTimeout(() => element.classList.remove('input-error'), 300);
         }
 
         function getInputValue(id) {
             const el = document.getElementById(id);
+            if(!el) return null;
             const value = el.value;
             if (value === '') return null;
-            
             let num = parseFloat(value);
             const max = parseFloat(el.getAttribute('max'));
             if (num > max) return max; 
             return num;
         }
 
-        function validateInputs(stream) {
-            const inputs = stream === 'cs' ? 
-                ['cs-phy-pt1', 'cs-phy-hy', 'cs-phy-pt2', 'cs-phy-sse', 'cs-phy-prac',
-                 'cs-chem-pt1', 'cs-chem-hy', 'cs-chem-pt2', 'cs-chem-sse', 'cs-chem-prac',
-                 'cs-math-pt1', 'cs-math-hy', 'cs-math-pt2', 'cs-math-sse', 'cs-math-prac',
-                 'cs-eng-pt1', 'cs-eng-hy', 'cs-eng-pt2', 'cs-eng-sse', 'cs-eng-prac',
-                 'cs-cs-pt1', 'cs-cs-hy', 'cs-cs-pt2', 'cs-cs-sse', 'cs-cs-prac'] :
-                ['hindi-phy-pt1', 'hindi-phy-hy', 'hindi-phy-pt2', 'hindi-phy-sse', 'hindi-phy-prac',
-                 'hindi-chem-pt1', 'hindi-chem-hy', 'hindi-chem-pt2', 'hindi-chem-sse', 'hindi-chem-prac',
-                 'hindi-math-pt1', 'hindi-math-hy', 'hindi-math-pt2', 'hindi-math-sse', 'hindi-math-prac',
-                 'hindi-eng-pt1', 'hindi-eng-hy', 'hindi-eng-pt2', 'hindi-eng-sse', 'hindi-eng-prac',
-                 'hindi-hindi-pt1', 'hindi-hindi-hy', 'hindi-hindi-pt2', 'hindi-hindi-sse', 'hindi-hindi-prac'];
-            
+        function validateInputs() {
+            let inputs = [];
+            if (currentMainStream === 'commerce') {
+                if (currentSubStream === 'ip') inputs = getCommerceIds('ip');
+                else inputs = getCommerceIds('hindi');
+            } else {
+                inputs = getScienceIds(currentSubStream);
+            }
             for (let id of inputs) {
                 if (getInputValue(id) === null) {
                     alert('Please fill all fields for all subjects!');
@@ -608,155 +403,149 @@
             return true;
         }
 
-        function calculateSubjectMarks(pt1, hy, pt2, sse, practical, hyMax, sseMax, pracMax) {
+        function getScienceIds(sub) {
+            const prefix = (sub === 'cs') ? 'cs' : 'hindi';
+            const suffixList = ['-pt1', '-hy', '-pt2', '-sse', '-prac'];
+            const subjects = ['-phy', '-chem', '-math', '-eng', (sub === 'cs' ? '-cs' : '-hindi')];
+            let ids = [];
+            subjects.forEach(sub => {
+                suffixList.forEach(suf => ids.push(prefix + sub + suf));
+            });
+            return ids;
+        }
+
+        function getCommerceIds(sub) {
+            const prefix = (sub === 'ip') ? 'comm-ip' : 'comm-hindi';
+            const suffixList = ['-pt1', '-hy', '-pt2', '-sse', '-prac'];
+            const subjects = ['-acc', '-bst', '-eco', '-eng', (sub === 'ip' ? '-ip' : '-hindi')];
+            let ids = [];
+            subjects.forEach(sub => {
+                suffixList.forEach(suf => ids.push(prefix + sub + suf));
+            });
+            return ids;
+        }
+
+        function calculateSubjectMarks(pt1, hy, pt2, sse, practical, hyMax, sseMax) {
             const b = (pt1 * 10) / 40;
             const c = (hy * 30) / hyMax;
             const d = (pt2 * 10) / 40;
             const e = (sse * 50) / sseMax;
-            
             const f = b + c + d + e;
             const g = Math.floor((f * sseMax) / 100);
             const total = g + practical;
-            
             const passMark = sseMax === 70 ? 23 : 26;
-            
             return { theoryMarks: g, totalMarks: total, passingMarks: passMark };
         }
 
         function calculateMarks() {
-            if (!currentStream) {
-                alert('Please select a stream first!');
-                return;
-            }
+            if (!validateInputs()) return;
 
-            if (!validateInputs(currentStream)) {
-                return;
-            }
-
-            const prefix = currentStream === 'cs' ? 'cs-' : 'hindi-';
             let results = [];
             let totalMarks = 0;
             let failCount = 0;
-            
-            const subjects = currentStream === 'cs' 
-                ? ['Physics', 'Chemistry', 'Maths', 'English', 'Computer Science']
-                : ['Physics', 'Chemistry', 'Maths', 'English', 'Hindi'];
-                
-            const subjectKeys = currentStream === 'cs' 
-                ? ['phy', 'chem', 'math', 'eng', 'cs']
-                : ['phy', 'chem', 'math', 'eng', 'hindi'];
+            let subjectData = [];
 
-            for (let i = 0; i < subjects.length; i++) {
-                const key = subjectKeys[i];
-                const pt1 = getInputValue(`${prefix}${key}-pt1`);
-                const hy = getInputValue(`${prefix}${key}-hy`);
-                const pt2 = getInputValue(`${prefix}${key}-pt2`);
-                const sse = getInputValue(`${prefix}${key}-sse`);
-                const practical = getInputValue(`${prefix}${key}-prac`);
-                
-                let hyMax = 80;
-                let sseMax = 80;
-                let pracMax = 20;
+            if (currentMainStream === 'commerce') {
+                const prefix = (currentSubStream === 'ip') ? 'comm-ip' : 'comm-hindi';
+                const lastSub = (currentSubStream === 'ip') ? 'IP' : 'Hindi';
+                subjectData = [
+                    { name: 'Accountancy', id: prefix + '-acc', theoryMax: 80, pracMax: 20 },
+                    { name: 'Business Studies', id: prefix + '-bst', theoryMax: 80, pracMax: 20 },
+                    { name: 'Economics', id: prefix + '-eco', theoryMax: 80, pracMax: 20 },
+                    { name: 'English', id: prefix + '-eng', theoryMax: 80, pracMax: 20 },
+                    { name: lastSub, id: prefix + (currentSubStream === 'ip' ? '-ip' : '-hindi'), theoryMax: (currentSubStream === 'ip' ? 70 : 80), pracMax: (currentSubStream === 'ip' ? 30 : 20) }
+                ];
+            } else {
+                const prefix = (currentSubStream === 'cs') ? 'cs' : 'hindi';
+                const thirdName = (currentMainStream === 'bio') ? 'Biology' : 'Maths';
+                const lastName = (currentSubStream === 'cs') ? 'Computer Science' : 'Hindi';
+                let thirdTheory = 80, thirdPrac = 20;
+                if(currentMainStream === 'bio') { thirdTheory = 70; thirdPrac = 30; }
 
-                if (key === 'phy' || key === 'chem' || key === 'cs') {
-                    hyMax = 70;
-                    sseMax = 70;
-                    pracMax = 30;
-                }
-                
-                const { theoryMarks, totalMarks: subjTotal, passingMarks } = calculateSubjectMarks(pt1, hy, pt2, sse, practical, hyMax, sseMax, pracMax);
-                
+                subjectData = [
+                    { name: 'Physics', id: prefix + '-phy', theoryMax: 70, pracMax: 30 },
+                    { name: 'Chemistry', id: prefix + '-chem', theoryMax: 70, pracMax: 30 },
+                    { name: thirdName, id: prefix + '-math', theoryMax: thirdTheory, pracMax: thirdPrac },
+                    { name: 'English', id: prefix + '-eng', theoryMax: 80, pracMax: 20 },
+                    { name: lastName, id: prefix + (currentSubStream === 'cs' ? '-cs' : '-hindi'), theoryMax: (currentSubStream === 'cs' ? 70 : 80), pracMax: (currentSubStream === 'cs' ? 30 : 20) }
+                ];
+            }
+
+            subjectData.forEach(sub => {
+                const pt1 = getInputValue(sub.id + '-pt1');
+                const hy = getInputValue(sub.id + '-hy');
+                const pt2 = getInputValue(sub.id + '-pt2');
+                const sse = getInputValue(sub.id + '-sse');
+                const prac = getInputValue(sub.id + '-prac');
+
+                const { theoryMarks, totalMarks: subjTotal, passingMarks } = calculateSubjectMarks(pt1, hy, pt2, sse, prac, sub.theoryMax, sub.theoryMax);
                 const isPassing = theoryMarks >= passingMarks;
                 totalMarks += subjTotal;
-                
-                if (!isPassing) {
-                    failCount++;
-                }
-                
+                if (!isPassing) failCount++;
+
                 results.push({
-                    subject: subjects[i],
+                    subject: sub.name,
                     totalMarks: subjTotal,
                     theoryObtained: theoryMarks,
                     status: isPassing ? 'Pass' : 'Fail',
                     needMoreMarks: isPassing ? 0 : passingMarks - theoryMarks
                 });
-            }
+            });
 
             const percentage = (totalMarks / 500) * 100;
             const finalMessage = determineFinalMessage(failCount, results);
-
             displayResults(results, totalMarks, percentage, finalMessage);
 
-            // --- 3. TRIGGER CONFETTI HERE ---
-            if (finalMessage.className === 'promote') {
-                triggerConfetti();
-            }
+            if (finalMessage.className === 'promote') triggerConfetti();
+        }
+
+        function triggerConfetti() {
+            var duration = 3000;
+            var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#667eea', '#764ba2', '#ffffff'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#667eea', '#764ba2', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
         }
 
         function determineFinalMessage(failCount, results) {
-            if (failCount >= 2) {
-                return { message: '❌ You will FAIL in class 11', className: 'fail' };
-            } else if (failCount === 1) {
+            if (failCount >= 2) return { message: '❌ You will FAIL in class 11', className: 'fail' };
+            else if (failCount === 1) {
                 const failedSubject = results.find(r => r.status === 'Fail').subject;
                 return { message: `⚠️ Supply (Compartment) in ${failedSubject}`, className: 'supply' };
-            } else {
-                return { message: '✅ Promoted to Class 12', className: 'promote' };
-            }
+            } else return { message: '✅ Promoted to Class 12', className: 'promote' };
         }
 
         function displayResults(results, totalMarks, percentage, finalMessage) {
             let html = '';
-            
             results.forEach(result => {
                 const resultClass = result.status === 'Pass' ? 'pass' : 'fail';
-                const statusText = result.status === 'Pass' 
-                    ? `✅ ${result.status}` 
-                    : `❌ ${result.status} (Need ${result.needMoreMarks} more in Theory)`;
-                
-                html += `
-                    <div class="subject-result ${resultClass}">
-                        <div class="subject-name">${result.subject}</div>
-                        <div class="subject-details">
-                            <div class="marks">Total: ${result.totalMarks} / 100</div>
-                            <div class="status" style="font-size:0.8em">Calc. Theory: ${result.theoryObtained}</div>
-                            <div class="status">${statusText}</div>
-                        </div>
-                    </div>
-                `;
+                const statusText = result.status === 'Pass' ? `✅ ${result.status}` : `❌ ${result.status} (Need ${result.needMoreMarks} more in Theory)`;
+                html += `<div class="subject-result ${resultClass}"><div class="subject-name">${result.subject}</div><div class="subject-details"><div class="marks">Total: ${result.totalMarks} / 100</div><div class="status" style="font-size:0.8em">Calc. Theory: ${result.theoryObtained}</div><div class="status">${statusText}</div></div></div>`;
             });
-
-            html += `
-                <div class="summary-box">
-                    <div class="summary-item">
-                        <div class="summary-label">Total Marks</div>
-                        <div class="summary-value">${totalMarks} / 500</div>
-                    </div>
-                    <div class="summary-item">
-                        <div class="summary-label">Percentage</div>
-                        <div class="summary-value">${percentage.toFixed(2)}%</div>
-                    </div>
-                </div>
-                <div class="final-message ${finalMessage.className}">${finalMessage.message}</div>
-            `;
-
+            html += `<div class="summary-box"><div class="summary-item"><div class="summary-label">Total Marks</div><div class="summary-value">${totalMarks} / 500</div></div><div class="summary-item"><div class="summary-label">Percentage</div><div class="summary-value">${percentage.toFixed(2)}%</div></div></div><div class="final-message ${finalMessage.className}">${finalMessage.message}</div>`;
             document.getElementById('results-content').innerHTML = html;
             document.getElementById('results').classList.add('show');
-            
-            setTimeout(() => {
-                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
+            setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
         }
 
         function resetForm() {
             document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
             document.getElementById('results').classList.remove('show');
             document.getElementById('results-content').innerHTML = '';
-            currentStream = '';
-            document.querySelectorAll('.stream-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('cs-stream').classList.remove('active');
-            document.getElementById('hindi-stream').classList.remove('active');
+            
+            currentMainStream = ''; currentSubStream = '';
+            document.querySelectorAll('.subjects-container').forEach(el => el.classList.remove('active'));
+            document.getElementById('sub-stream-selection').classList.remove('visible');
+            document.getElementById('calc-controls').style.display = 'none';
+            document.getElementById('active-stream-title').style.display = 'none';
+            document.getElementById('main-stream-selection').classList.add('visible');
+            document.getElementById('back-btn').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
+        document.getElementById('main-stream-selection').classList.add('visible');
     </script>
 </body>
 </html>
